@@ -58,9 +58,30 @@ const Phonebook = () => {
             setNewPerson('');
         } else {
             if (checkName.includes(newPerson)) {
-                alert(`${newPerson} is already in the Phonebook`);
-                setNewPerson('');
-                setNewNumber('');
+                let confirm = window.confirm(`${newPerson} aleardy exits. Do you want to update phone number?`);
+                if (confirm) {
+                    let id = 0;
+                    for (let i = 0; i < persons.length; i++) {
+                        if (persons[i].name.includes(newPerson)) {
+                            id = persons[i].id;
+                        }
+                    }
+                    //console.log('ID', id);
+                    services
+                        .update(id, personObj)
+                        .then(response => {
+                            //console.log(response.data);
+                            setPersons(
+                                persons.map((person) =>
+                                    //checks for id: if found replaces that person with response.data
+                                    person.id !== id ? person : response.data
+                                )
+                            );
+                            //console(response.data);
+                            setNewPerson('');
+                            setNewNumber('');
+                        })
+                }
             } else {
                 services
                     .create(personObj)
@@ -94,6 +115,7 @@ const Phonebook = () => {
                 })
         }
     }
+
     return (
         <div>
             <h3>Phonebook</h3>

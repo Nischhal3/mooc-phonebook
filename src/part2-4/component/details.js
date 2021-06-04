@@ -4,7 +4,7 @@ const Details = ({ person, handleDelete }) => {
     return (
         <div>
             {person.name}: {person.number}
-            <button onClick={handleDelete.bind(null, person.id, person.name)}>Delete</button>
+            <button onClick={() => handleDelete(person.id, person.name)}>Delete</button>
         </div>
     )
 }
