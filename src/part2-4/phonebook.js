@@ -3,6 +3,7 @@ import Button from './component/button';
 import Details from './component/details';
 import Filter from './component/filter';
 import Form from './component/form';
+import Message from './component/message';
 import services from './services/person'
 
 const Phonebook = () => {
@@ -10,6 +11,7 @@ const Phonebook = () => {
     const [newPerson, setNewPerson] = useState('');
     const [newNumber, setNewNumber] = useState('');
     const [search, setSearch] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const fetchPerson = () => {
         services
@@ -52,10 +54,8 @@ const Phonebook = () => {
         }
         if (!newPerson) {
             alert('Name filed is empty');
-            setNewNumber('');
         } else if (!newNumber) {
             alert('Number filed is empty');
-            setNewPerson('');
         } else {
             if (checkName.includes(newPerson)) {
                 let confirm = window.confirm(`${newPerson} aleardy exits. Do you want to update phone number?`);
@@ -80,7 +80,12 @@ const Phonebook = () => {
                             //console(response.data);
                             setNewPerson('');
                             setNewNumber('');
+                        }).catch(error => {
+                            setErrorMessage(`${personObj.name} is already removed from Server!`);
                         })
+                    setTimeout(() => {
+                        setErrorMessage(null);
+                    }, 3000)
                 }
             } else {
                 services
@@ -119,6 +124,7 @@ const Phonebook = () => {
     return (
         <div>
             <h3>Phonebook</h3>
+            <Message message={errorMessage} />
             <Filter search={search} handleSearch={handleSearch} />
             <h3>Add new Perons</h3>
             <Form
