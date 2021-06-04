@@ -1,7 +1,11 @@
 import React from 'react';
-const Details = (props) => {
+const Details = ({ person, handleDelete }) => {
+    //console.log(person);
     return (
-        <div>{props.name}: {props.number}</div>
+        <div>
+            {person.name}: {person.number}
+            <button onClick={handleDelete.bind(null, person.id, person.name)}>Delete</button>
+        </div>
     )
 }
 

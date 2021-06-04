@@ -20,8 +20,6 @@ const Phonebook = () => {
             }).catch(error => {
                 console.log('Error', error);
             })
-
-
     }
     useEffect(fetchPerson, []);
 
@@ -82,6 +80,20 @@ const Phonebook = () => {
         return person.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
     })
 
+    const handleDelete = (id, name) => {
+        //console.log('Person', id, name);
+        let newPersonList = persons.filter(person => person.id !== id);
+        let confirm = window.confirm(`Pres OK to delete ${name}`);
+
+        if (confirm) {
+            services
+                .deletePerson(id)
+                .then(response => {
+                    //console.log(`${id} deleted`);
+                    setPersons(newPersonList);
+                })
+        }
+    }
     return (
         <div>
             <h3>Phonebook</h3>
@@ -95,7 +107,7 @@ const Phonebook = () => {
             <h3>Numbers</h3>
             {filteredPerson.map((person, index) => {
                 return (
-                    <Details key={index} name={person.name} number={person.number} />
+                    <Details key={index} person={person} handleDelete={handleDelete} />
                 )
             })}
         </div>
