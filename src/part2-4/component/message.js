@@ -6,9 +6,9 @@ const Message = ({ message }) => {
     }
 
     return (
-        <h1 className="error">
+        <h4 className="error">
             {message}
-        </h1>
+        </h4>
     )
 }
 

@@ -97,6 +97,12 @@ const Phonebook = () => {
                         setNewPerson('');
                         setNewNumber('');
                     })
+                    .catch(error => {
+                        setErrorMessage(error.response.data.error);
+                    })
+                setTimeout(() => {
+                    setErrorMessage(null);
+                }, 3000)
             }
         }
     }
